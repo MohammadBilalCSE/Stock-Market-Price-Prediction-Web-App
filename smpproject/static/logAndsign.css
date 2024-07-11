@@ -1,0 +1,105 @@
+:root {
+    --logo-color: linear-gradient(to right, #FF0000 20%, #07B261 100%);
+    --button-color: #07B261;
+    --button-hover-color: #f2f2f2;
+    --anchor-color: rgb(102, 249, 102);
+    --color-dark: #000000;
+    --main-container-color: #F7F7F7;
+    --main-box-shadow: inset 0px 5px 1px rgba(0, 0, 0, 0.35),0px 5px 5px rgba(0, 0, 0, 0.5), 0px 15px 25px rgba(0, 0, 0, 0.35), ;
+    --primary-color: hsl(0, 100%, 50%); 
+    --secondary-color: hsl(132, 63%, 45%); 
+    --navbar-background: rgb(24, 23, 23);
+    --text-color: #FFFFFF;
+    --link-color: rgb(102, 249, 102);
+    --link-hover-color: #FFFFFF;
+    --color-light: #FFFFFF; 
+    --btn-padding: 0.6rem 2rem;
+    --border-radius: 2rem; 
+    --color-grey: hsl(252, 15%, 65%);
+    --sticky-top-left: 5.4rem;
+    --card-border-radius: 1rem;
+    --active-background: linear-gradient(137.45deg, #24262d 7.42%, #0e0f12 104.16%);
+    --active-text-color: #07B261;
+    --card-padding: 0.4rem 0.6rem;
+}
+
+.dark-mode {
+    --logo-color: linear-gradient(to right, #07B261 20%, #FF0000  100%);
+    --button-color: #FF0000;
+    --button-hover-color: #f2f2f2;
+    --anchor-color: rgb(102, 249, 102);
+    --color-dark: #000000;
+    --main-container-color: #F7F7F7;
+    --main-box-shadow: inset 0px 5px 1px rgba(0, 0, 0, 0.35),0px 5px 5px rgba(0, 0, 0, 0.5), 0px 15px 25px rgba(0, 0, 0, 0.35), ;
+    --primary-color: hsl(0, 100%, 50%);
+    --secondary-color: hsl(132, 63%, 45%);
+    --navbar-background: rgb(24, 23, 23);
+    --text-color: #FFFFFF;
+    --link-color: rgb(102, 249, 102);
+    --link-hover-color: #FFFFFF;
+    --color-light: #FFFFFF;
+    --btn-padding: 0.6rem 2rem;
+    --border-radius: 2rem;
+    --color-grey: hsl(252, 15%, 65%);
+    --sticky-top-left: 5.4rem;
+    --card-border-radius: 1rem;
+    --active-background: linear-gradient(137.45deg, #24262d 7.42%, #0e0f12 104.16%);
+    --active-text-color: #07B261;
+    --card-padding: 0.4rem 0.6rem;
+}
+
+body {
+    background: var(--color-dark);
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* Additional CSS styles for form container */
+.form-container {
+    width: 490px;
+    padding: 30px;
+    background: var(--active-background);
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    backdrop-filter: blur(10px);
+}
+.form-container h3{
+    color: var(--button-color);
+}
+/* Styling for form inputs */
+input {
+    display: block;
+    width: 460px;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background: var(--color-dark);
+    color: var(--color-light);
+    font-size: 16px;
+    outline: none;
+}
+input[type="submit"] {
+    background-color: var(--button-color);
+    color: var(--color-light);
+    margin: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #2edb8a;
+}
+
+.form-container p a {
+    color: var(--button-color);
+    text-decoration: none;
+}
+.form-container p a:hover{color: var(--color-light);}
+
+.form-container label{color: var(--button-color);}

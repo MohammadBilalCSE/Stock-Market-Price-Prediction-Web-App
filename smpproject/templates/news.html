@@ -1,0 +1,27 @@
+{% extends "news-base.html" %}
+{% block title %}SMPRADE | Latest News{% endblock title %}
+<main>
+
+    {% block news-right %}
+<div class="news-page-container">
+    {% for article in articles %}
+     {% if article.urlToImage %}
+        <div class="article-row">
+            <a href="{{ article.url }}" target="_blank">
+                <div class="article-image">
+                    <img src="{{ article.urlToImage }}" alt="{{ article.title }}">
+                </div>
+            </a>
+            <div class="article-content">
+                <h3>{{ article.title }}</h3>
+                <p><strong>Source:</strong> {{ article.source.name }}</p>
+                <p>{{ article.description }}</p>
+                <p><strong>Published At:</strong> {{ article.publishedAt }}</p>
+            </div>
+        </div>   
+     {% endif %}
+    {% endfor %}
+</div>
+{% endblock news-right %}
+
+</main>

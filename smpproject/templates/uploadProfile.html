@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %}SMPRADE | Upload Profile{% endblock title %} {% block middle %}
+<div class="profile-update-container">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Iterate over form fields manually -->
+    {% for field in form %} {% if field.name == 'picture' %}
+    <!-- Render the Picture field with custom label -->
+    <p>
+      <label for="{{ field.id_for_label }}">Select Profile Picture:</label>
+      <!--<label class="file-input-label" for="{{ field.id_for_label }}">Upload New Picture</label>-->
+      <input
+        type="file"
+        name="{{ field.name }}"
+        accept="image/*"
+        id="{{ field.id_for_label }}"
+      />
+    </p>
+    {% else %}
+    <!-- Render other fields as usual -->
+    <p>{{ field.label_tag }} {{ field }}</p>
+    {% endif %} {% endfor %}
+    <button type="submit" class="openBtn">Upload</button>
+    <button type="submit" class="closeBtn">Back</button>
+  </form>
+</div>
+{% endblock middle %}

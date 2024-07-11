@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'newsStyle.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-icons-1.10.5\bootstrap-icons-1.10.5\font\bootstrap-icons.min.css' %}">
+    <script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body class="theme-aware-element">
+    <header id="header">
+        <nav>
+            <div class="logo"><b>SMP</b><small>RADE</small></div>
+            <form action="" method="get">
+                <div class="search-bar">
+                    <input type="search" name="SearchQuery" id="search-text" placeholder="Search Stock, News, Trades etc...">
+                    <button class="btn loginBtn" id="search-button" name="query" >Search</button>
+                </div>
+            </form>
+            <ul class="nav-links" id="sidemenu">
+                <li class="nav-link"><a href="{% url 'index' %}">Trading</a></li>
+                <li class="nav-link"><a href="{% url 'settings' %}">Help</a></li>
+                <li class="nav-link"><a href="{% url 'aboutus' %}">About Us</a></li>
+                <li class="nav-link"><a href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-link">
+                   
+                    {% if user.profile.picture %}
+                    <img src="{{ user.profile.picture.url }}" alt="Profile Picture" class="profile-photo" >
+                {% else %}
+                    <p>No profile picture uploaded.</p>
+                {% endif %}
+                </li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <!------------------------------- MAIN ---------------------------------->
+    <main>
+        <div class="container">
+            <!----------------- LEFT -------------------->
+            <div class="left">
+                <a class="profile">
+                    <div class="profile-photo">
+                        {% if user.profile.picture %}
+        <img src="{{ user.profile.picture.url }}" alt="Profile Picture" class="profile-photo">
+    {% else %}
+        <p>No profile picture uploaded.</p>
+    {% endif %}
+                    </div>
+                    <div class="handle">
+                        <h4>{{ username }}</h4>
+                        <p class="text-muted">
+                            {{ email }}
+                        </p>
+                    </div>
+                </a>
+
+                <!----------------- SIDEBAR -------------------->
+                <div class="sidebar">
+                    <a href="{% url 'homepage' %}" class="menu-item {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}">
+                        <span><i class="bi bi-house-door"></i></span>
+                        <h3>Home</h3>
+                    </a>
+                    <a href="{% url 'PlotingData' %}" class="menu-item {% if request.resolver_match.url_name == 'PlotingData' %}active{% endif %}">
+                        <span><i class="bi bi-clipboard2-data"></i></span>
+                        <h3>Historical Data</h3>
+                    </a>
+                    <a href="{% url 'index' %}" class="menu-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                        <span><i class="bi bi-graph-up-arrow"></i></span>
+                        <h3>Stock Price Prediction</h3>
+                    </a>
+                    <a href="{% url 'news' %}" class="menu-item {% if request.resolver_match.url_name == 'news' %}active{% endif %}">
+                        <span><i class="bi bi-newspaper"></i></span>
+                        <h3>News</h3>
+                    </a>
+                    <a href="{% url 'uploadProfile' %}" class="menu-item show-popup {% if request.resolver_match.url_name == 'uploadprofile' %}active{% endif %}">
+                        <span><i class="bi bi-person-circle"></i></span>
+                        <h3>Upload Profile Photo</h3>
+                    </a>
+                    <a href="{% url 'settings' %}" class="menu-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                        <span><i class="bi bi-gear"></i></span>
+                        <h3>Setting</h3>
+                    </a>
+                </div>
+                <!----------------- END OF SIDEBAR -------------------->
+            </div>
+            <div class="news-right">
+                {% block news-right %}
+
+                {% block index-right-up %}
+                {% endblock %}
+                {% block index-right-middle %}
+                {% endblock %}
+                {% block index-right-down %}
+                {% endblock %}
+
+                {% endblock %}
+            </div>
+    </main>
+    <div class="backToTop">
+        <a href="#header"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script>
+        const showPopup = document.querySelector('.show-popup');
+        const popupContainer = document.querySelector('.popup-container');
+        const closeBtnn = document.querySelector('.closeBtn');
+        showPopup.onclick = () => {
+            popupContainer.classList.add('active');
+        }
+        closeBtnn.onclick = () => {
+            popupContainer.classList.remove('active');
+        }
+        
+    </script>
+    
+    <script src="{% static 'style.js' %}"></script>
+
+    {% block jsScript %}
+
+    {% endblock %}
+
+</body>

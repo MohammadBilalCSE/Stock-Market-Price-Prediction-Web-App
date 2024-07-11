@@ -1,0 +1,108 @@
+{% extends "base.html" %} {% load static %} {% block title %}SMPRADE |
+Homepage{% endblock title %} <!------------------------------- MAIN --------------------------------->
+<main>
+  <div class="container">
+    {% block middle %}
+    <!----------------- MIDDLE -------------------->
+    <div class="middle">
+      <!-- Form for creating posts -->
+      <form
+        id="postForm"
+        method="post"
+        enctype="multipart/form-data"
+        class="create-post"
+      >
+        {% csrf_token %}
+        <div class="profile-photo">
+          {% if user.profile.picture %}
+          <img
+            src="{{ user.profile.picture.url }}"
+            alt="Profile Picture"
+            class="profile-photo"
+          />
+          {% else %}  <img src={% static "images\dark theme icon\user-profile-default.png" %} class="default-image" alt="Default image"> {% endif %}
+        </div>
+        <textarea
+          name="text"
+          id="postText"
+          placeholder="What's on your mind, {{ username }}?"
+          oninput="validateWordCount()"
+          maxlength="200"
+        ></textarea>
+        <p id="wordCountMessage" style="color: red"></p>
+        <label for="post-img" id="post-img-label" class="post-btn"
+          ><i class="bi bi-plus-square"></i
+        ></label>
+        <input type="file" name="photo" class="post-img-input" id="post-img" />
+        <input
+          type="submit"
+          id="submitButton"
+          value="Post"
+          class="post-btn loginBtn"
+          disabled
+        />
+      </form>
+
+      <!-- Feed section -->
+      <div class="feeds">
+        {% for post in posts %}
+        <div class="feed">
+          <!-- Post header with user info -->
+          <div class="head">
+            <div class="user">
+              <h3>{{ post.user.username }}</h3>
+              <small>{{ post.created_at }}</small>
+            </div>
+            {% if post.user == request.user %}
+            <!-- Delete post button -->
+            <form
+              action="{% url 'delete_post' post.id %}"
+              method="post"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn deleteBtn">Delete</button>
+            </form>
+            {% endif %}
+          </div>
+          <!-- Post content -->
+          {% if post.photo %}
+          <div class="photo">
+            <img src="{{ post.photo.url }}" />
+          </div>
+          {% endif %}
+          <div class="caption">
+            <p>{{ post.text }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!----------------- END OF FEEDS -------------------->
+    </div>
+    <!----------------- END OF MIDDLE -------------------->
+    {% endblock middle %} {% block right %}
+    <!----------------- RIGHT -------------------->
+    <div class="right">
+      <div class="news-container">
+        {% for article in articles %}
+        <div class="article-row">
+          <a href="{{ article.url }}" target="_blank">
+            <div class="article-image">
+              <img src="{{ article.urlToImage }}" alt="{{ article.title }}" />
+            </div>
+          </a>
+          <div class="article-content">
+            <h2>{{ article.title }}</h2>
+            <p><strong>Source:</strong> {{ article.source.name }}</p>
+            <!--<p>{{ article.description }}</p>-->
+            <p><strong>Published At:</strong> {{ article.publishedAt }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!----------------- END OF RIGHT -------------------->
+    {% endblock right %}
+  </div>
+</main>

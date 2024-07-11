@@ -1,0 +1,206 @@
+{% extends "base.html" %} {% load static %} {% block title %}SMPRADE |
+Settings{% endblock title %} {% block middle %}
+<div class="settings_middle">
+  <button class="settings_btn" id="settings_btn1">
+    <div class="settings_row">
+      <div><i class="bi bi-gear"></i>Change Theme</div>
+      <div><i class="bi bi-arrow-right-square"></i></div>
+    </div>
+  </button>
+  <button class="settings_btn" id="settings_btn2">
+    <div class="settings_row">
+      <div><i class="bi bi-gear"></i>Help and support</div>
+      <div><i class="bi bi-arrow-right-square"></i></div>
+    </div>
+  </button>
+  <button class="settings_btn" id="settings_btn3">
+    <div class="settings_row">
+      <div><i class="bi bi-gear"></i>Feedback</div>
+      <div><i class="bi bi-arrow-right-square"></i></div>
+    </div>
+  </button>
+  <button class="settings_btn" id="settings_btn4">
+    <a href="{% url 'aboutus' %}"
+      ><div class="settings_row">
+        <div><i class="bi bi-gear"></i>About us</div>
+        <div><i class="bi bi-arrow-right-square"></i></div></div
+    ></a>
+  </button>
+</div>
+{% endblock middle %} {% block right %}
+<div class="settings_right">
+  <div class="changeTheme">
+    <span>Change theme :</span>
+    <button onclick="myFunction()"><i class="bi bi-moon-fill"></i></button>
+  </div>
+  <div class="help">
+    <div class="custom-select">
+      <span class="openText"
+        ><span>FAQs : </span><i class="bi bi-caret-down-fill"></i></span
+      ><span class="hiddenText">
+        <div class="que1">
+          Q: How do I change the theme of the application? <br />
+          A: To change the theme, navigate to the settings page by clicking on
+          the gear icon in the top right corner of the screen. Then, click on
+          the "Change Theme" button and select either the light or dark theme
+          option.
+        </div>
+        <br />
+        <div class="que2">
+          Q: I'm experiencing issues with loading the application. What should I
+          do? <br />
+          A: If you're having trouble loading the application, please try
+          clearing your browser's cache and cookies, and then refresh the page.
+          If the issue persists, please contact our support team for further
+          assistance.
+        </div>
+        <br />
+        <div class="que3">
+          Q: Can I use the application on mobile devices? <br />
+          A: Yes, our application is compatible with most mobile devices. Simply
+          access the application through your mobile browser to use it on your
+          smartphone or tablet.
+        </div>
+        <br />
+      </span>
+    </div>
+
+    <div class="custom-select">
+      <span class="openText"
+        ><span>Contact Information : </span
+        ><i class="bi bi-caret-down-fill"></i></span
+      ><span class="hiddenText">
+        <div>Email : xyz@gmail.com</div>
+        <div>Phone : +1234561234</div>
+        <div>LinkedIn : LinkedIn Id</div>
+      </span>
+    </div>
+
+    <div class="custom-select">
+      <span class="openText"
+        ><span>Feedback : </span><i class="bi bi-caret-down-fill"></i></span
+      ><span class="hiddenText">
+        <div>
+          <i class="bi bi-star"></i><i class="bi bi-star"></i
+          ><i class="bi bi-star"></i><i class="bi bi-star"></i
+          ><i class="bi bi-star"></i>
+        </div>
+        <div><button type="submit">Submit</button></div>
+      </span>
+    </div>
+
+    <div class="custom-select">
+      <span class="openText"
+        ><span>Terms of Service & Privacy Policy : </span
+        ><i class="bi bi-caret-down-fill"></i></span
+      ><span class="hiddenText">
+        <div>
+          Terms of Service: [Link to Terms of Service] Privacy Policy: [Link to
+          Privacy Policy]
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <div class="feedback">
+    <span class="openText"
+      ><span>Feedback : </span><i class="bi bi-caret-down-fill"></i></span
+    ><span class="hiddenText">
+      <div>
+        <i class="bi bi-star"></i><i class="bi bi-star"></i
+        ><i class="bi bi-star"></i><i class="bi bi-star"></i
+        ><i class="bi bi-star"></i>
+      </div>
+      <div><button type="submit">Submit</button></div>
+    </span>
+  </div>
+</div>
+{% endblock right %} {% block jsScript %}
+
+<script>
+  // JavaScript for showing and hiding hidden text
+  document.addEventListener("DOMContentLoaded", function () {
+    const openTextSpans = document.querySelectorAll(".openText");
+
+    openTextSpans.forEach((span) => {
+      span.addEventListener("click", function () {
+        const hiddenText = span.nextElementSibling;
+
+        if (hiddenText.style.display === "block") {
+          hiddenText.style.display = "none";
+          span.querySelector("i").classList.remove("bi-caret-up-fill");
+          span.querySelector("i").classList.add("bi-caret-down-fill");
+        } else {
+          hiddenText.style.display = "block";
+          span.querySelector("i").classList.remove("bi-caret-down-fill");
+          span.querySelector("i").classList.add("bi-caret-up-fill");
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const settingsButtons = document.querySelectorAll(".settings_btn");
+    const changeThemeDiv = document.querySelector(
+      ".settings_right .changeTheme"
+    );
+    const helpDiv = document.querySelector(".settings_right .help");
+    const feedbackDiv = document.querySelector(".settings_right .feedback");
+
+    // Function to show popup with transition after delay
+    function showPopupWithTransition(div) {
+      setTimeout(() => {
+        div.style.opacity = "1";
+      }, 200);
+
+      // Set display to 'block' and transition properties after delay
+      setTimeout(() => {
+        div.style.display = "block";
+        div.style.transition = "opacity .7s ease";
+        div.style.opacity = "1";
+      }, 200);
+    }
+
+    // Function to hide all popups
+    function hideAllPopups() {
+      changeThemeDiv.style.display = "none";
+      helpDiv.style.display = "none";
+      feedbackDiv.style.display = "none";
+    }
+
+    // Initially hide all popups and set initial opacity for transition
+    hideAllPopups();
+    changeThemeDiv.style.opacity = "0";
+    helpDiv.style.opacity = "0";
+    feedbackDiv.style.opacity = "0";
+
+    settingsButtons.forEach((button) => {
+      button.addEventListener("click", function () {
+        // Hide all popups before showing the selected one
+        hideAllPopups();
+
+        // Determine which button was clicked
+        const buttonId = button.id;
+
+        // Show corresponding popup with transition after delay based on button clicked
+        switch (buttonId) {
+          case "settings_btn1":
+            showPopupWithTransition(changeThemeDiv);
+            break;
+          case "settings_btn2":
+            showPopupWithTransition(helpDiv);
+            break;
+          case "settings_btn3":
+            showPopupWithTransition(feedbackDiv);
+            break;
+          // Add cases for additional buttons if needed
+          default:
+            break;
+        }
+      });
+    });
+  });
+</script>
+{% endblock jsScript %}

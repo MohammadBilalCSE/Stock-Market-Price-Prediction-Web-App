@@ -1,0 +1,52 @@
+{% extends "news-base.html" %}
+{% load static %}
+{% block title %}SMPRADE | Ticker Symbol Detail{% endblock title %}
+    <div class="container-fluid position-relative d-flex p-0">
+        
+
+
+
+
+        <!-- Content Start -->
+        {% block index-right-up %}
+        <div class="content">
+
+
+            <!-- Main Content Start -->
+            <div class="ticker_table_container">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">All Tickers</h6>
+                        <a href="{% url 'homepage' %}"><i class="bi bi-arrow-left-short"></i> Home</a>
+                    </div>
+                    <div class="ticker_table">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-white">
+                                    <th scope="col">Ticker Symbol</th>
+                                    <th scope="col">Ticker Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if ticker_list %}
+                                {% for i in ticker_list %}
+                                <tr>
+                                    <td>{{i.Symbol}}</td>
+                                    <td>{{i.Name}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Ends -->
+        </div>
+        {% endblock index-right-up %}
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+    </div>

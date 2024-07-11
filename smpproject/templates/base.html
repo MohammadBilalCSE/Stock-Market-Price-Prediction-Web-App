@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-icons-1.10.5\bootstrap-icons-1.10.5\font\bootstrap-icons.min.css' %}">
+    <script src='https://cdn.plot.ly/plotly-2.30.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+</head>
+<body class="theme-aware-element">
+    <header id="header">
+        <nav>
+            <div class="logo"><b>SMP</b><small>RADE</small></div>
+            <form action="" method="get">
+                <div class="search-bar">
+                    <input type="search" name="SearchQuery" id="search-text" placeholder="Search Stock, News, Trades etc...">
+                    <button class="btn loginBtn" id="search-button" name="query" >Search</button>
+                </div>
+            </form>
+            <ul class="nav-links" id="sidemenu">
+                <li class="nav-link"><a href="{% url 'index' %}">Trading</a></li>
+                <li class="nav-link"><a href="{% url 'settings' %}">Help</a></li>
+                <li class="nav-link"><a href="{% url 'aboutus' %}">About Us</a></li>
+                <li class="nav-link"><a href="{% url 'logout' %}">Logout</a></li>
+                <li class="nav-link default-image-li">
+                   
+                    {% if user.profile.picture %}
+                    <img src="{{ user.profile.picture.url }}" alt="Profile Picture" class="profile-photo" >
+                {% else %}
+                    <img src={% static "images\dark theme icon\user-profile-default.png" %} class="default-image" alt="Default image">
+                {% endif %}
+                </li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <------------------------------- MAIN ---------------------------------->
+    <main>
+        <div class="container">
+            <!----------------- LEFT -------------------->
+            <div class="left">
+                <a class="profile">
+                    <div class="profile-photo">
+                        {% if user.profile.picture %}
+        <img src="{{ user.profile.picture.url }}" alt="Profile Picture" class="profile-photo">
+    {% else %}
+      <img src={% static "images\dark theme icon\user-profile-default.png" %} class="default-image" alt="Default image">
+    {% endif %}
+                    </div>
+                    <div class="handle">
+                        <h4>{{ username }}</h4>
+                        <p class="text-muted">
+                            {{ email }}
+                        </p>
+                    </div>
+                </a>
+
+                <!----------------- SIDEBAR -------------------->
+                <div class="sidebar">
+                    <a href="{% url 'homepage' %}" class="menu-item {% if request.resolver_match.url_name == 'homepage' %}active{% endif %}">
+                        <span><i class="bi bi-house-door"></i></span>
+                        <h3>Home</h3>
+                    </a>
+                    <a href="{% url 'PlotingData' %}" class="menu-item {% if request.resolver_match.url_name == 'PlotingData' %}active{% endif %}">
+                        <span><i class="bi bi-clipboard2-data"></i></span>
+                        <h3>Historical Data</h3>
+                    </a>
+                    <a href="{% url 'index' %}" class="menu-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                        <span><i class="bi bi-graph-up-arrow"></i></span>
+                        <h3>Stock Price Prediction</h3>
+                    </a>
+                    <a href="{% url 'news' %}" class="menu-item {% if request.resolver_match.url_name == 'news' %}active{% endif %}">
+                        <span><i class="bi bi-newspaper"></i></span>
+                        <h3>News</h3>
+                    </a>
+                    <a href="{% url 'uploadProfile' %}" class="menu-item show-popup {% if request.resolver_match.url_name == 'uploadProfile' %}active{% endif %}">
+                        <span><i class="bi bi-person-circle"></i></span>
+                        <h3>Upload Profile Photo</h3>
+                    </a>
+                    <a href="{% url 'settings' %}" class="menu-item {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+                        <span><i class="bi bi-gear"></i></span>
+                        <h3>Setting</h3>
+                    </a>
+                </div>
+                <!----------------- END OF SIDEBAR -------------------->
+            </div>
+            <div class="middle">
+                {% block middle %}
+                {% endblock %}
+            </div>
+            <div class="right">
+                {% block right %}
+
+                {% endblock %}
+            </div>
+    </main>
+    <div class="backToTop">
+        <a href="#header"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <script> // PROFILE UPLOAD FUNCTIONS
+        const showPopup = document.querySelector('.show-popup');
+        const popupContainer = document.querySelector('.popup-container');
+        const closeBtnn = document.querySelector('.closeBtn');
+        showPopup.onclick = () => {
+            popupContainer.classList.add('active');
+        }
+        closeBtnn.onclick = () => {
+            popupContainer.classList.remove('active');
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('uploadForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                formData.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
+                var xhr = new XMLHttpRequest();
+                xhr.open(this.getAttribute('method'), this.getAttribute('action'), true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        confirm("Profile picture uploaded !");
+                    } else {
+                        alert('Error: ' + xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    alert('Network error occurred');
+                };
+                xhr.send(formData);
+            });
+        });
+        
+    </script>
+   
+
+    
+
+<script> // HISTORICAL DATA VISUALIZAION FUNCTION
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('stockForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const symbol = document.getElementById('symbolInput').value.toUpperCase();
+        const startDate = document.getElementById('startDateInput').value;
+        const endDate = document.getElementById('endDateInput').value;
+
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=YOUR_ALPHA_VANTAGE_API_KEY`;
+
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            const filteredData = filterDataByDateRange(data['Time Series (Daily)'], startDate, endDate);
+            const traces = generateTraces(filteredData);
+            plotChart(traces, `Stock Prices for ${symbol} (${startDate} to ${endDate})`);
+          })
+          .catch(error => {
+            console.error('Error fetching stock data:', error);
+            alert('Failed to fetch stock data. Please try again.');
+          });
+      });
+
+      function filterDataByDateRange(data, startDate, endDate) {
+        return Object.entries(data).reduce((filtered, [date, values]) => {
+          if (date >= startDate && date <= endDate) {
+            filtered[date] = values;
+          }
+          return filtered;
+        }, {});
+      }
+
+      function generateTraces(data) {
+        const dates = Object.keys(data);
+        const closingPrices = dates.map(date => parseFloat(data[date]['4. close']));
+
+        const trace = {
+          type: "scatter",
+          mode: "lines",
+          name: 'Closing Prices',
+          x: dates,
+          y: closingPrices,
+          line: { color: 'Green' }
+        };
+
+        return [trace];
+      }
+
+      function plotChart(traces, title) {
+        const layout = {
+          title: title,
+          xaxis: { title: 'Date'/*, showgrid: true*/, gridcolor: 'black'},
+          yaxis: { title: 'Closing Price (USD)'/*, showgrid: true*/ },
+          plot_bgcolor: 'black',
+        };
+
+        Plotly.newPlot('myDiv', traces, layout);
+      }
+    });
+  </script>
+
+  <script>
+    function validateWordCount() {
+        var text = document.getElementById('postText').value;
+        var wordCount = text.trim().split(/\s+/).length;
+        var wordCountMessage = document.getElementById('wordCountMessage');
+        var submitButton = document.getElementById('submitButton');
+
+        if (wordCount > 600) {
+            wordCountMessage.textContent = "Word limit exceeded. Please remove " + (wordCount - 600) + " words.";
+            submitButton.disabled = true;
+        } else {
+            wordCountMessage.textContent = "";
+            submitButton.disabled = false;
+        }
+    }
+</script>
+    
+    <script src="{% static 'style.js' %}"></script>
+
+    {% block jsScript %}
+
+    {% endblock %}
+
+</body>

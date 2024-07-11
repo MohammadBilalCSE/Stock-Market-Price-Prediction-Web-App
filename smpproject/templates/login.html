@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SPMRADE | Login{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'logAndsign.css' %}">
+</head>
+<body class="theme-aware-element">
+    <div class="form-container">
+        <h3>Login Here</h3>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username">
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+
+            <input type="submit" value="Log In">
+        </form>
+        <p><a href="{% url 'signup' %}">Create an account</a></p>
+    </div>
+
+    <script src="{% static 'style.js' %}"></script>
+</body>
+</html>

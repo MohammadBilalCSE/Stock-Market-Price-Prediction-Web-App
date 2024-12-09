@@ -45,8 +45,8 @@
 
 
 ###  Screenshots
- - ![Homepage] : (smpproject/media/Homepage-img.png)
- - ![Price Prediction Page] : (smpproject/media/Prediction-img.png)
+ - ![Homepage](smpproject/media/Homepage-img.png)
+ - ![Price Prediction Page](smpproject/media/Prediction-img.png)
 
 
 

@@ -17,7 +17,7 @@ import yfinance as yf
 import datetime as dt
 from sklearn.linear_model import LinearRegression
 from sklearn import preprocessing, model_selection
-API_KEY = 'cf04794515af438a821caa0930678801'# ADD 01 at last to start fetchng news.
+API_KEY = 'YOUR_NEWS_API_KEY'# ADD 01 at last to start fetchng news.
 
 # Create your views here.
 @login_required(login_url='login')
